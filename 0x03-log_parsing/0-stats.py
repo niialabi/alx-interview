@@ -33,7 +33,6 @@ try:
                 if status_codes[code] > 0:
                     print(f"{code}: {status_codes[code]}")
 
-
             # Reset metrics
             file_size = 0
             status_codes = {
