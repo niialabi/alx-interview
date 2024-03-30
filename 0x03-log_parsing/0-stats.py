@@ -20,7 +20,7 @@ try:
                 int(line.split('\"')[2].split(" ")[1]), \
                 int(line.split('\"')[2].split(" ")[2])
         except (IndexError, ValueError):
-            continue  # Skip if line format is incorrectx
+            continue  # Skip if line format is incorrect
 
         # Update metrics
         file_size += size
@@ -33,6 +33,12 @@ try:
                 if status_codes[code] > 0:
                     print(f"{code}: {status_codes[code]}")
 
+
+            # Reset metrics
+            file_size = 0
+            status_codes = {
+                200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0
+            }
 
 except KeyboardInterrupt:
     # Print metrics on keyboard interruption
