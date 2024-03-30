@@ -15,7 +15,10 @@ try:
 
         # Parse line
         try:
-            ip, date, request, status_code, size = line.split(" - [")[0], line.split(" - [")[1].split("]")[0], line.split('\"')[1], int(line.split('\"')[2].split(" ")[1]), int(line.split('\"')[2].split(" ")[2])
+            ip, date, request, status_code, size = line.split(" - [")[0], \
+                line.split(" - [")[1].split("]")[0], line.split('\"')[1], \
+                int(line.split('\"')[2].split(" ")[1]), \
+                int(line.split('\"')[2].split(" ")[2])
         except (IndexError, ValueError):
             continue  # Skip if line format is incorrectx
 
