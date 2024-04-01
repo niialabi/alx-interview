@@ -8,40 +8,33 @@ status_codes = {
 }
 line_count = 0
 
+
+def print_output():
+    """ func prints specified output """
+    print("File size:", file_size)
+    for key, value in status_codes.items():
+        if value:
+            print("{}: {}".format(key, value))
+
+
 try:
-    # Read from stdin line by line
     for line in sys.stdin:
         line_count += 1
-
-        # Parse line
+        line = line.split()
         try:
-            ip, date, request, status_code, size = line.split(" - [")[0], \
-                line.split(" - [")[1].split("]")[0], line.split('\"')[1], \
-                int(line.split('\"')[2].split(" ")[1]), \
-                int(line.split('\"')[2].split(" ")[2])
-        except (IndexError, ValueError):
-            continue  # Skip if line format is incorrect
-
-        # Update metrics
-        file_size += size
-        status_codes[status_code] += 1
-
-        # Print metrics every 10 lines
-        if line_count % 10 == 0:
-            print(f"File size: {file_size}")
-            for code in sorted(status_codes.keys()):
-                if status_codes[code] > 0:
-                    print(f"{code}: {status_codes[code]}")
-
-            # Reset metrics
-            file_size = 0
-            status_codes = {
-                200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0
-            }
-
+            file_size = int(line[-1])
+            file_size += file_size
+        except (IndexError, ValueError, TypeError):
+            continue
+        try:
+            status_code = int(line[-2])
+            if status_code in status_codes.keys():
+                status_codes[status_code] += 1
+        except (IndexError, ValueError, TypeError):
+            continue
+        if line_count == 10:
+            print_output()
+            line_count = 0
+    print_output()
 except KeyboardInterrupt:
-    # Print metrics on keyboard interruption
-    print(f"\nFile size: {file_size}")
-    for code in sorted(status_codes.keys()):
-        if status_codes[code] > 0:
-            print(f"{code}: {status_codes[code]}")
+    print_output()
