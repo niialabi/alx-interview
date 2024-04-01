@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""  log parsing module """
 import sys
 
 # Initialize metrics
